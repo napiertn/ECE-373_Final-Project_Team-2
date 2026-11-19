@@ -1,1 +1,6 @@
-# ECE-373_Final-Project_Team-2
+# ECE-373\_Final-Project\_Team-2
+
+
+
+AIDANS PUSH SO IT SHOWS IM A COLLABERATOR
+
