@@ -1,5 +1,8 @@
 package command;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
@@ -13,7 +16,14 @@ public class EditorApplication {
 
     public static void main(String[] args) {
         EditorApplication app = new EditorApplication();
-        app.runInteractive();
+        if (args.length == 0){
+            app.runInteractive();
+        } else if (args.length == 1) {
+            app.runScript(Path.of(args[0]));
+
+        }else {
+            System.out.println("Usage: EditorApplication  [script-file]");
+        }
     }
 
     public void runInteractive() {
@@ -43,5 +53,20 @@ public class EditorApplication {
     }
 
     public void runScript(Path path) {
+        if (path == null) {
+            throw new IllegalArgumentException("Script path cannot be null");
+        }
+
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+
+            System.out.println("Running script: " + path);
+
+            processor.processScript(reader);
+
+            System.out.println("Script processing completed.");
+
+        } catch (IOException e) {
+            System.out.println("Error reading script: " + e.getMessage());
+        }
     }
 }
