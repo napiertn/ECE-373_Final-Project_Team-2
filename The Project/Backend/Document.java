@@ -4,23 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-Top level Document model that hold the documents sections/notifies lsteners when the document changes and creates/restores snapshots.
-  */
+ * Top level Document model that hold the documents sections/notifies lsteners when the document changes and creates/restores snapshots.
+ */
 public class Document{
     private final List<Section> sections;
     private final List<DocumentChangeListener> listeners;
 
-    /**Creates a empty document with no sections or listeners*/
+    /**
+     * Creates an empty document with no sections or listeners
+     */
     public Document(){
         this.sections = new ArrayList<>();
         this.listeners = new ArrayList<>();
     }
 
 
-    /** sereches the entire doc tree for a node with given ID
-        @param id the Id to search for
-        @return the matching DocumentNode, or null if not found
-    */
+    /**
+     * searches the entire doc tree for a node with given ID
+     * @param id the ID to search for
+     * @return the matching DocumentNode, or null if not found
+     */
     public DocumentNode findNode(String id) {
         if (id == null) {
             return null;
@@ -34,10 +37,12 @@ public class Document{
         return null;
     }
 
-/**Finds the immediate parent section that contains the given child ID.
-//returns null if the ID is a top-level section or does not exist
-//@param childId the ID of the child node
-//@return the parent Section, or null if not found*/
+    /**
+     * Finds the immediate parent section that contains the given child ID.
+     * returns null if the ID is a top-level section or does not exist
+     * @param childId the ID of the child node
+     * @return the parent Section, or null if not found
+     */
     public Section findParentSection(String childId){
         if (childId == null) {
             return null;
@@ -51,10 +56,14 @@ public class Document{
         return null;
     }
 
-    /**returns the StyledText for a specific node and field (a pragraphs body or a sections title)
-    //@param nodeId the target node ID
-    //@param field whether to get the paragraph BODY or SECTION_TITLE
-    //@return the matching StyledText object*/
+    /**
+     * Returns the StyledText for a specific node and field (a paragraph's body
+     * or a section's title).
+     *
+     * @param nodeId the target node ID
+     * @param field  whether to get the paragraph BODY or SECTION_TITLE
+     * @return the matching StyledText object
+     */
     public StyledText resolveText(String nodeId, TextField field){
         if (field == null) {
             throw new IllegalArgumentException("TextField cannot be null.");
@@ -78,9 +87,12 @@ public class Document{
     }
 
 
-    /**Inserts a top level section at given position
-    //@param index    position to insert at (from 0 to sections size)
-    //@param section  the top level section to add*/
+    /**
+     * Inserts a top-level section at the given position.
+     *
+     * @param index   position to insert at (from 0 to sections size)
+     * @param section the top-level section to add
+     */
     public void addSection(int index, Section section){
         if (section == null) {
             throw new IllegalArgumentException("Section cannot be null.");
@@ -93,9 +105,12 @@ public class Document{
         sections.add(index, section);
     }
 
-    /**removes and returns the top level section matching the given ID
-    //@param id the ID of the top level section to remove
-    //@return the removed Section, or null if not found*/
+    /**
+     * Removes and returns the top-level section matching the given ID.
+     *
+     * @param id the ID of the top-level section to remove
+     * @return the removed Section, or null if not found
+     */
     public Section removeSection(String id) {
         if (id == null) {
             return null;
@@ -109,8 +124,10 @@ public class Document{
     }
 
 
-    /**Registers a listener so it gets notified when the document changes.
-    //@param listener the observer to subscribe*/
+    /**
+     * Registers a listener so it gets notified when the document changes.
+     * @param listener the observer to subscribe
+     */
     public void subscribe(DocumentChangeListener listener){
         if (listener == null) {
             throw new IllegalArgumentException("Listener cannot be null.");
@@ -120,29 +137,39 @@ public class Document{
         }
     }
 
-    /**Removes a previously subscribed listener
-    //@param listner the observer to unsubscribe*/
+    /**
+     * Registers a listener so it gets notified when the document changes.
+     *
+     * @param listener the observer to subscribe
+     */
     public void unsubscribe(DocumentChangeListener listener){
         listeners.remove(listener);
     }
 
-    /**Alerts all subscribed listeners that document has been modified.*/
+    /**
+     * Alerts all subscribed listeners that the document has been modified.
+     */
     public void publishChanged(){
-/** Loop over a copy in case a listener unsubscribes during notification*/
         List<DocumentChangeListener> currentListeners = new ArrayList<>(listeners);
         for (DocumentChangeListener listener : currentListeners) {
             listener.onDocumentChanged(this);
         }
     }
 
-    /**Creates a deep copy snapshot of the current document state for checkpoints
-    //@return a new DocumentSnapshot*/
+    /**
+     * Creates a deep-copy snapshot of the current document state for checkpoints.
+     *
+     * @return a new DocumentSnapshot
+     */
     public DocumentSnapshot createSnapshot(){
         return new DocumentSnapshot(sections);
     }
 
-    /**Resotres the documents sections from a previously saved snapshot
-    //@param snapshot the snapshot to restore*/
+    /**
+     * Restores the document's sections from a previously saved snapshot.
+     *
+     * @param snapshot the snapshot to restore
+     */
     public void restore(DocumentSnapshot snapshot){
         if (snapshot == null) {
             throw new IllegalArgumentException("Snapshot cannot be null.");
@@ -152,8 +179,11 @@ public class Document{
     }
 
 
-    /**Returns a copy of the list of top level sections in order
-    //@return list of top level sections*/
+    /**
+     * Returns a copy of the list of top-level sections in order.
+     *
+     * @return list of top-level sections
+     */
     public List<Section> getSections(){
         return new ArrayList<>(sections);
     }
