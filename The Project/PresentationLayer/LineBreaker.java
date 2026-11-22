@@ -1,3 +1,5 @@
+package presentation;
+
 import java.util.List;
 
 /** Strategy for wrapping a block of text into lines no longer than width. */
