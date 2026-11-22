@@ -1,8 +1,5 @@
-  package editor.model;
-  
-  import java.util.Objects;
-  import static java.util.Objects.requireNonNullElse;
-  
+package editor.model;
+
   /*
   Partial formatting update whose non null fields override the corresponding
   attributes of an existing {link textstyle}
@@ -13,25 +10,25 @@
   @param optionalFontSize    new positive font size, or {@code null} to leave unchanged
   @param optionalColor       new color value, or {@code null} to leave unchanged
   */
-  
-  public record StylePatch(
-  Boolean optionalBold,
-  Boolean optionalItalic,
-  String optionalFontName,
-  Integer optionalFontSize,
-    String optionalColor
-  ){
-  // validates any provided non null patch values immediately.
+
+public record StylePatch(
+        Boolean optionalBold,
+        Boolean optionalItalic,
+        String optionalFontName,
+        Integer optionalFontSize,
+        String optionalColor
+){
+    // validates any provided non null patch values immediately.
     public StylePatch{
-      if (optionalFontName != null && optionalFontName.isBlank()){
-        throw new IllegalArgumentException("Font name must not be blank.");
-      }
-      if (optionalFontSize != null && optionalFontSize <= 0){
-        throw new IllegalArgumentException("Font size must be positive.");
-      }
-      if (optionalColor != null && optionalColor.isBlank()){
-        throw new IllegalArgumentException("Color must not be blank.");
-      }
+        if (optionalFontName != null && optionalFontName.isBlank()){
+            throw new IllegalArgumentException("Font name must not be blank.");
+        }
+        if (optionalFontSize != null && optionalFontSize <= 0){
+            throw new IllegalArgumentException("Font size must be positive.");
+        }
+        if (optionalColor != null && optionalColor.isBlank()){
+            throw new IllegalArgumentException("Color must not be blank.");
+        }
     }
   
   /* 
@@ -40,16 +37,35 @@
   param style base style to update
   return updated immutable {link textstyle}
   */
-  
-    public TextStyle applyTo(TextStyle style){
-  Objects.requireNonNull(style, "Base style must not be null.");
-    
-    return new TextStyle{
-    requireNonNullElse(optionalBold, style.bold()),
-    requireNonNullElse(optionalItalic, style.italic()),
-    requireNonNullElse(optionalFontName, style.fontName()),
-    requireNonNullElse(optionalFontSize, style.fontSize()),
-    requireNonNullElse(optionalColor, style.color())
-      );
+  public TextStyle applyTo(TextStyle style) {
+      if (style == null) {
+          throw new IllegalArgumentException("Base style cannot be null.");
       }
+
+      // Start with the existing style's values
+      boolean newBold = style.bold();
+      boolean newItalic = style.italic();
+      String newFontName = style.fontName();
+      int newFontSize = style.fontSize();
+      String newColor = style.color();
+
+      // Only replace the fields that this patch actually set
+      if (optionalBold != null) {
+          newBold = optionalBold;
+      }
+      if (optionalItalic != null) {
+          newItalic = optionalItalic;
+      }
+      if (optionalFontName != null) {
+          newFontName = optionalFontName;
+      }
+      if (optionalFontSize != null) {
+          newFontSize = optionalFontSize;
+      }
+      if (optionalColor != null) {
+          newColor = optionalColor;
+      }
+
+      return new TextStyle(newBold, newItalic, newFontName, newFontSize, newColor);
   }
+}
