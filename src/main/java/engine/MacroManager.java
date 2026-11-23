@@ -11,6 +11,9 @@ public final class MacroManager {
     private String recordingName;
     private List<MacroAction> recordingSteps;
 
+    /** Indicates whether commands are currently being recorded. */
+    public boolean isRecording() { return recordingName != null; }
+
     /** Begins recording a named macro. */
     public void start(String name) {
         if (name == null || name.isBlank()) throw new IllegalArgumentException("Macro name required");

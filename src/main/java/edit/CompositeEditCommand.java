@@ -6,6 +6,8 @@ import model.Document;
 
 /** Composite pattern: execute many edits as one atomic and reversible unit. */
 public final class CompositeEditCommand extends SnapshotEditCommand {
+    /** Creates an initially empty atomic collection of editing commands. */
+    public CompositeEditCommand() { }
     private final List<EditCommand> children = new ArrayList<>();
 
     /** Appends an editing command. */

@@ -6,6 +6,8 @@ import model.DocumentSnapshot;
 
 /** Named, immutable full-document snapshots. */
 public final class CheckpointManager {
+    /** Creates an empty named-checkpoint registry. */
+    public CheckpointManager() { }
     private final Map<String, DocumentSnapshot> saved = new HashMap<>();
 
     /** Creates or overwrites a named checkpoint. */

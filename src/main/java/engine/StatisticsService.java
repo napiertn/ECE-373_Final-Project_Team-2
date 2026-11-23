@@ -25,7 +25,7 @@ public final class StatisticsService implements DocumentChangeListener {
             }
             characters += content.length();
             String trimmed = content.trim();
-            if (!trimmed.isEmpty()) words += trimmed.split("\s+").length;
+            if (!trimmed.isEmpty()) words += trimmed.split("\\s+").length;
         }
         current = new DocumentStatistics(words, characters, paragraphs);
     }
