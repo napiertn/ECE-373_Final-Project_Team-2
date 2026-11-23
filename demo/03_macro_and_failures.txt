@@ -1,0 +1,19 @@
+# DEMO 3: a complex macro, single-step undo, invalid input must be atomic
+section report Test document
+paragraph report p1 Alpha beta gamma delta epsilon zeta.
+macro start emphasis
+format p1 0 5 bold=true
+replaceall whole beta | BETA
+width 20
+view markup
+render
+macro stop
+macro replay emphasis
+render
+undo
+render
+redo
+render
+# invalid edit must keep the entire document unchanged
+insert p1 999 Out-of-bounds
+render

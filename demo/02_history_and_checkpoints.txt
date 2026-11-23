@@ -1,0 +1,18 @@
+# DEMO 2: one-undo replace-all, checkpoint, undo/redo and branch invalidation
+section draft Draft
+paragraph draft p1 cat cat cat dog
+save before
+replaceall whole cat | tiger
+render
+undo
+render
+redo
+render
+restore before
+render
+undo
+render
+split p1 4 p2
+outline
+merge p1 p2
+outline
