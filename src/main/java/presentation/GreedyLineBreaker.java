@@ -6,7 +6,10 @@ import java.util.List;
 
 //Greedy Puts ass many words as possible on a line, words longer than width are split
 
+/** Greedy word-based line breaking that fills each line as much as possible. */
 public final class GreedyLineBreaker implements LineBreaker {
+    /** Constructs the stateless greedy breaking strategy. */
+    public GreedyLineBreaker() { }
     @Override
     public List<String> wrap(String text, int width) {
         if (text == null) throw new IllegalArgumentException("Text is required");

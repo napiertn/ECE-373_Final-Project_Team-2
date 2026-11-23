@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/** Balanced line breaking that minimizes the sum of nonfinal squared line slack. */
 public final class BalancedLineBreaker implements LineBreaker {
+    /** Constructs the stateless dynamic-programming breaking strategy. */
+    public BalancedLineBreaker() { }
 
     @Override
     public List<String> wrap(String text, int width) {
@@ -50,4 +53,4 @@ public final class BalancedLineBreaker implements LineBreaker {
 }
 
 
-}
+

@@ -4,7 +4,7 @@ import java.util.List;
 
 /** Strategy for wrapping a block of text into lines no longer than width. */
 public interface LineBreaker {
-    /*
+    /**
       @param text  text to wrap (may be empty)
       @param width maximum line length, must be > 0
 
