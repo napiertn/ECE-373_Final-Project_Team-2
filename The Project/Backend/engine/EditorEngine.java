@@ -5,6 +5,7 @@ import edit.RestoreCheckpointCommand;
 import model.Document;
 import model.TextSelection;
 import java.util.List;
+import presentation.PresentationService;
 
 /** Integration facade for a future command dispatcher; contains no CLI syntax. */
 public final class EditorEngine {
@@ -14,6 +15,8 @@ public final class EditorEngine {
     private final SearchService search = new SearchService(document);
     private final MacroManager macros = new MacroManager();
     private final StatisticsService statistics = new StatisticsService();
+
+    private final PresentationService presentation = new PresentationService();
 
     /** Constructs an engine with a live statistics observer. */
     public EditorEngine() { statistics.initialize(document); }
@@ -28,6 +31,43 @@ public final class EditorEngine {
     public SearchService search() { return search; }
     /** Returns current document statistics. */
     public DocumentStatistics statistics() { return statistics.getStatistics(); }
+
+    //Aidans Presentation stuff///////////////////////////////////////////////////////
+    /** Returns the presentation settings (view, line breaker, width). */
+    public PresentationService presentation() { return presentation; }
+
+    /** Switches the rendering view; an unknown name leaves the old view. */
+    public CommandResult selectView(String name) {
+        try {
+            presentation.selectView(name);
+            return CommandResult.ok("View: " + presentation.currentView());
+        } catch (IllegalArgumentException e) { return CommandResult.fail(e.getMessage()); }
+    }
+    /** Switches the line-breaking method; an unknown name leaves the old one. */
+    public CommandResult selectLineBreaker(String name) {
+        try {
+            presentation.setLineBreaker(name);
+            return CommandResult.ok("Line breaker: " + presentation.currentBreaker());
+        } catch (IllegalArgumentException e) { return CommandResult.fail(e.getMessage()); }
+    }
+    /** Sets the output width from user text; invalid input leaves the old width. */
+    public CommandResult setWidth(String text) {
+        try {
+            presentation.setWidth(Integer.parseInt(text.trim()));
+            return CommandResult.ok("Width: " + presentation.getWidth());
+        } catch (NumberFormatException e) {
+            return CommandResult.fail("Width must be a whole number, got '" + text + "'");
+        } catch (IllegalArgumentException e) { return CommandResult.fail(e.getMessage()); }
+    }
+    /** Renders the document with the current settings. */
+    public CommandResult render() { return CommandResult.ok(presentation.render(document)); }
+    /** Reports the current word, character, and paragraph counts. */
+    public CommandResult status() {
+        DocumentStatistics s = statistics.getStatistics();
+        return CommandResult.ok("Words: " + s.words() + ", Characters: " + s.characters()
+                + ", Paragraphs: " + s.paragraphs());
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /** Executes a reversible edit through history. */
     public CommandResult apply(EditCommand command) { return history.perform(command); }
