@@ -1,0 +1,22 @@
+# DEMO 1: Hierarchy, edits, formatting, rendering, statistics
+section intro Introduction
+paragraph intro p1 Object-oriented design makes a document editor extensible and maintainable.
+paragraph intro p2 These commands are executed through the same processor as interactive input.
+subsection intro results Results
+paragraph results p3 A program can search for a program within deeply nested sections.
+outline
+status
+find substring program
+replaceall whole program | system
+render
+view markup
+format p1 0 15 bold=true italic=true fontsize=16 color=blue
+titleformat intro 0 12 bold=true fontsize=20
+render
+width 35
+breaker greedy
+render
+breaker balanced
+render
+status
+styles
