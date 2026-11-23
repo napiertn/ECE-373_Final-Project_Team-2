@@ -6,6 +6,8 @@ import java.util.List;
 
 /** One mutable document, composed of root sections and an observer registry. */
 public final class Document {
+    /** Creates an initially empty document with no registered observers. */
+    public Document() { }
     private final List<Section> sections = new ArrayList<>();
     private final List<DocumentChangeListener> listeners = new ArrayList<>();
 
