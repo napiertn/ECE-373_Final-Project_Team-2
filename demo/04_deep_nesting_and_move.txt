@@ -1,0 +1,17 @@
+# DEMO 4: nested content, styled preservation, cross-paragraph movement
+section top Deep nesting
+subsection top middle Middle layer
+subsection middle bottom Bottom layer
+paragraph bottom first Hello brilliant world.
+paragraph bottom second This is another paragraph.
+format first 6 15 bold=true
+moveto first 6 15 second 8
+view markup
+render
+undo
+render
+split first 6 third
+outline
+merge first third
+outline
+status
